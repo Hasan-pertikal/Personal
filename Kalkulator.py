@@ -8,7 +8,7 @@ def opFilter(opLen): #untuk memfilter apakah sebuah operasi ada dalam input user
         varO += 1
     
 def main():
-    print("********Calculator********")
+    print("********Calculator Total********")
     angka = []
     operasi = []
 
@@ -58,39 +58,48 @@ def main():
     opLen = [len(tambah), len(kurang), len(kali), len(bagi)]
 
     opFilter(opLen) 
-    
+    angka_range = len(angka)
     if opLen[2] == True or opLen[3] == True: #ngecek ada kali atau bagi
-        for i in range(len(angka) + 1):
+        tress = 0
+        for i in range(angka_range):
             try:
                 if i in kali and i == 0:
                     hasil_1 = angka[0] * angka[1]
                     angka[0] = hasil_1
                     angka.pop(1) #menghilangkan angka di index 1
+                    tress -= 1
                 elif i in bagi and i == 0:
                     hasil_1 = angka[0] / angka[1]
                     angka[0] = hasil_1 
                     angka.pop(1) #menghilangkan angka di index 1
+                    tress -= 1
                 elif i in kali:
-                    hasil_1 = angka[i] * angka[i + 1]
-                    angka[i] = hasil_1
-                    angka.pop(i + 1) #menghilangkan angka pada index i + 1
-                    
+                    hasil_1 = angka[tress] * angka[tress + 1]
+                    angka[tress] = hasil_1
+                    angka.pop(tress + 1) #menghilangkan angka pada index i + 1    
+                    tress -= 1
                 elif i in bagi: 
-                    hasil_1 = angka[i] / angka[i + 1]
-                    angka[i] = hasil_1
-                    angka.pop(i + 1) #menghilangkan angka di index i + 1
+                    hasil_1 = angka[tress] / angka[tress + 1]
+                    angka[tress] = hasil_1
+                    angka.pop(tress + 1) #menghilangkan angka di index i + 1
+                    tress -= 1
+                
             except IndexError: #mengcek apakah ada error pada angka[i]
                 if i in kali:
-                    hasil_1 = angka[i - 1] * angka[i]
-                    angka[i - 1] = hasil_1
-                    angka.pop(i)
+                    hasil_1 = angka[tress - 1] * angka[tress]
+                    angka[tress - 1] = hasil_1
+                    angka.pop(tress)
+                    tress -= 1
                 elif i in bagi:
-                    hasil_1 = angka[i - 1] / angka[i]
-                    angka[i - 1] = hasil_1
-                    angka.pop(i)
+                    hasil_1 = angka[tress - 1] / angka[tress]
+                    angka[tress - 1] = hasil_1
+                    angka.pop(tress)
+                    tress -= 1
+            tress += 1   
+            print(angka)
     
     if opLen[0] == True or opLen[1] == True: #ngecek ada + atau -
-        for i in range (len(angka)):
+        for i in range(angka_range):
             if i in tambah and i == 0:
                 hasil_2 = angka[0] + angka[1]
                 angka[0] = hasil_2
@@ -107,6 +116,9 @@ def main():
                 hasil_2 = angka[0] - angka[1]
                 angka[0] = hasil_2
                 angka.pop(1) #menghilangkan angka di index 1
+
+            print(angka)
+
     print(f"= {angka[0]}") #print hasil  
       
 if __name__ == "__main__": #untuk melaksanakan program utama
